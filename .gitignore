@@ -1,0 +1,16 @@
+*.pyc
+.env
+humans.txt
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
+staticfiles/
+htmlcov/
+.coverage
+.vscode/
+env/
+migrations/
