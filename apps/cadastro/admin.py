@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from cadastro.models import (
+    Usuario, Perfil
+)
+
+admin.site.register(Usuario)
+admin.site.register(Perfil)
