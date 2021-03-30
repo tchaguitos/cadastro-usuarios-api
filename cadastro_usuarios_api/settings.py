@@ -1,6 +1,11 @@
+import sys
+
 from pathlib import Path
 
 from decouple import config
+
+from datetime import timedelta
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,6 +14,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+sys.path.append(
+    str(BASE_DIR / "apps")
+)
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -16,6 +25,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+INSTALLED_APPS += [
+    "rest_framework"
+]
+
+INSTALLED_APPS += [
+    "locais",
+    "cadastro"
 ]
 
 MIDDLEWARE = [
@@ -72,6 +90,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    "SIGNING_KEY": config("SECRET_KEY")
+}
+
+AUTH_USER_MODEL = "cadastro.Usuario"
 
 LANGUAGE_CODE = "pt-BR"
 TIME_ZONE = "America/Sao_Paulo"
