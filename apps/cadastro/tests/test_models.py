@@ -101,3 +101,13 @@ class PerfilTestCase(TestCase):
             perfil.__str__(),
             "Thiago Rodrigues Brasil"
         )
+
+    def test_get_email(self):
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        self.assertEqual(
+            perfil.get_email(),
+            "test@test.com"
+        )

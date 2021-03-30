@@ -146,6 +146,9 @@ class Perfil(models.Model):
         on_delete=models.PROTECT
     )
 
+    def get_email(self):
+        return self.usuario.email
+
     class Meta:
         db_table = "perfil"
         verbose_name = "Perfil"
