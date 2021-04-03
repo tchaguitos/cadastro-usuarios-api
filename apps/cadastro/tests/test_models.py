@@ -111,3 +111,37 @@ class PerfilTestCase(TestCase):
             perfil.get_email(),
             "test@test.com"
         )
+
+    def test_get_cpf(self):
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        self.assertEqual(
+            perfil.get_cpf(),
+            "664.449.980-50"
+        )
+
+    def test_get_pis(self):
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        self.assertEqual(
+            perfil.get_pis(),
+            "317.56489.82-2"
+        )
+
+    def test_get_municipio(self):
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        cidade = Cidade.objects.get(
+            id=1
+        )
+
+        self.assertEqual(
+            perfil.get_municipio(),
+            cidade
+        )

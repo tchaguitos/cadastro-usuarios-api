@@ -149,6 +149,25 @@ class Perfil(models.Model):
     def get_email(self):
         return self.usuario.email
 
+    def get_nome(self):
+        primeiro_nome = self.nome_completo.split(" ")[0]
+        return primeiro_nome
+
+    def get_cpf(self):
+        cpf = self.usuario.cpf
+        cpf_mascarado = f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+
+        return cpf_mascarado
+
+    def get_pis(self):
+        pis = self.usuario.pis
+        pis_mascarado = f"{pis[:3]}.{pis[3:8]}.{pis[8:10]}-{pis[10:]}"
+
+        return pis_mascarado
+
+    def get_municipio(self):
+        return self.municipio
+
     class Meta:
         db_table = "perfil"
         verbose_name = "Perfil"
