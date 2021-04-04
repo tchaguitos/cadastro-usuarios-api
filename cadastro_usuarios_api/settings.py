@@ -1,4 +1,3 @@
-import sys
 import django_heroku
 
 from pathlib import Path
@@ -11,13 +10,11 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
-sys.path.append(
-    str(BASE_DIR / "apps")
-)
+ALLOWED_HOSTS = [
+    "https://cadastro-usuarios-web.vercel.app"
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -111,7 +108,6 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
     "https://cadastro-usuarios-web.vercel.app"
 ]
 
