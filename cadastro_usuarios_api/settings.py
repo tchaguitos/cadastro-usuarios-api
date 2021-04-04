@@ -28,10 +28,12 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    "rest_framework"
+    "rest_framework",
+    "corsheaders"
 ]
 
 INSTALLED_APPS += [
+    "api",
     "locais",
     "cadastro"
 ]
@@ -44,6 +46,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = "cadastro_usuarios_api.urls"
@@ -69,8 +72,12 @@ WSGI_APPLICATION = "cadastro_usuarios_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT"),
     }
 }
 
@@ -101,6 +108,11 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
     "SIGNING_KEY": config("SECRET_KEY")
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "https://cadastro-usuarios-web.vercel.app"
+]
 
 AUTH_USER_MODEL = "cadastro.Usuario"
 
