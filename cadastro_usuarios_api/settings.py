@@ -1,4 +1,5 @@
 import sys
+import django_heroku
 
 from pathlib import Path
 
@@ -124,3 +125,5 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
+
+django_heroku.settings(locals())
