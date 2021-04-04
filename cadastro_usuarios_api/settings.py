@@ -1,3 +1,5 @@
+import sys
+
 import django_heroku
 
 from pathlib import Path
@@ -15,6 +17,10 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "https://cadastro-usuarios-web.vercel.app"
 ]
+
+sys.path.append(
+    str(BASE_DIR / "apps")
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
