@@ -1,5 +1,7 @@
 import sys
 
+import django_heroku
+
 from pathlib import Path
 
 from decouple import config
@@ -10,9 +12,11 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "https://cadastro-usuarios-web.vercel.app"
+]
 
 sys.path.append(
     str(BASE_DIR / "apps")
@@ -28,10 +32,12 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    "rest_framework"
+    "rest_framework",
+    "corsheaders"
 ]
 
 INSTALLED_APPS += [
+    "api",
     "locais",
     "cadastro"
 ]
@@ -44,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = "cadastro_usuarios_api.urls"
@@ -69,8 +76,12 @@ WSGI_APPLICATION = "cadastro_usuarios_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT"),
     }
 }
 
@@ -102,6 +113,10 @@ SIMPLE_JWT = {
     "SIGNING_KEY": config("SECRET_KEY")
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "https://cadastro-usuarios-web.vercel.app"
+]
+
 AUTH_USER_MODEL = "cadastro.Usuario"
 
 LANGUAGE_CODE = "pt-BR"
@@ -112,3 +127,5 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
+
+django_heroku.settings(locals())
