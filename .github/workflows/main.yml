@@ -6,11 +6,6 @@ on:
 
 env:
   SECRET_KEY: AAXAY99)_420-(tAJ000AJN
-  DB_NAME: ${{ secrets.DB_NAME }}
-  DB_USER: ${{ secrets.DB_USER }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_HOST: ${{ secrets.DB_HOST }}
-  DB_PORT: ${{ secrets.DB_PORT }}
 
 jobs:
   build:
@@ -32,4 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test apps --pattern="test_*.py"
+        python manage.py test apps --pattern="test_*.py" --settings=cadastro_usuarios_api.test_settings
