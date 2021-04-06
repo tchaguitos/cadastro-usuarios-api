@@ -23,5 +23,5 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("perfil/", PerfilViewSet.as_view({'get': 'get'}), name="perfil")
+    path("perfil/", PerfilViewSet.as_view({'get': 'get', 'put': 'update'}), name="perfil")
 ]
