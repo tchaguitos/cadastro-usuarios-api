@@ -1,8 +1,6 @@
 name: Executando testes com Python 3.7, 3.8 e 3.9
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ main ]
 
