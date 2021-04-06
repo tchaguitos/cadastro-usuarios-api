@@ -12,10 +12,10 @@ class PerfilSerializer(serializers.ModelSerializer):
     cpf = serializers.CharField(source="get_cpf")
     pis = serializers.CharField(source="get_pis")
 
-    municipio = CidadeSerializer(source="get_municipio", many=False)
-
     nome = serializers.CharField(source="get_nome")
+    cep = serializers.CharField(source="get_cep")
 
+    municipio = CidadeSerializer(source="get_municipio", many=False)
 
     class Meta:
         model = Perfil
