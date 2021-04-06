@@ -88,7 +88,7 @@ class PerfilTestCase(TestCase):
             logradouro="Avenida Afonso Pena",
             numero=3693,
             complemento="Apartamento 385",
-            cep="37410220",
+            cep="37410555",
             municipio=cidade
         )
 
@@ -144,4 +144,14 @@ class PerfilTestCase(TestCase):
         self.assertEqual(
             perfil.get_municipio(),
             cidade
+        )
+
+    def test_get_cep(self):
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        self.assertEqual(
+            perfil.get_cep(),
+            "37410-555"
         )

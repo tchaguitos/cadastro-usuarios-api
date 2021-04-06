@@ -2,10 +2,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from django.shortcuts import get_object_or_404
+
 from cadastro.models import Perfil
 
 from cadastro.serializers import (
-    CadastroSerializer, PerfilSerializer
+    CadastroSerializer, PerfilSerializer, AtualizaPerfilSerializer
 )
 
 
@@ -34,6 +36,9 @@ class PerfilViewSet(viewsets.ViewSet):
 
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Perfil.objects.select_related("usuario", "municipio").all()
+
     def get(self, request):
 
         try:
@@ -54,3 +59,27 @@ class PerfilViewSet(viewsets.ViewSet):
             }
 
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+
+        id_usuario = request.user.perfil.id
+
+        perfil = get_object_or_404(
+            self.get_queryset(),
+            pk=id_usuario
+        )
+
+        serializer = AtualizaPerfilSerializer(perfil, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            response = {
+                "success": True,
+                "message": "Perfil atualizado com sucesso"
+            }
+
+            return Response(response, status=status.HTTP_200_OK)
+
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

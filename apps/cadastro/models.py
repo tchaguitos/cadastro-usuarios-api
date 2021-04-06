@@ -168,6 +168,12 @@ class Perfil(models.Model):
     def get_municipio(self):
         return self.municipio
 
+    def get_cep(self):
+        cep = self.cep
+        cep_mascarado = f"{cep[:5]}-{cep[5:]}"
+
+        return cep_mascarado
+
     class Meta:
         db_table = "perfil"
         verbose_name = "Perfil"

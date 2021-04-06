@@ -1,7 +1,5 @@
 import sys
 
-import django_heroku
-
 from pathlib import Path
 
 from decouple import config
@@ -12,11 +10,9 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    "https://cadastro-usuarios-web.vercel.app"
-]
+ALLOWED_HOSTS = []
 
 sys.path.append(
     str(BASE_DIR / "apps")
@@ -76,12 +72,8 @@ WSGI_APPLICATION = "cadastro_usuarios_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -114,7 +106,7 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://cadastro-usuarios-web.vercel.app"
+    "http://localhost:8080",
 ]
 
 AUTH_USER_MODEL = "cadastro.Usuario"
@@ -129,5 +121,3 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
-
-django_heroku.settings(locals())

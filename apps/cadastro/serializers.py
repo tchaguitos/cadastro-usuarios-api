@@ -6,21 +6,50 @@ from cadastro.models import Usuario, Perfil
 
 from locais.serializers import CidadeSerializer
 
+
 class PerfilSerializer(serializers.ModelSerializer):
 
     email = serializers.CharField(source="get_email")
     cpf = serializers.CharField(source="get_cpf")
     pis = serializers.CharField(source="get_pis")
 
-    municipio = CidadeSerializer(source="get_municipio", many=False)
-
     nome = serializers.CharField(source="get_nome")
+    cep = serializers.CharField(source="get_cep")
 
+    municipio = CidadeSerializer(source="get_municipio", many=False)
 
     class Meta:
         model = Perfil
         fields = [
             "nome", "email", "cpf", "pis",
+            "nome_completo", "logradouro", "numero",
+            "complemento", "cep", "municipio"
+        ]
+
+class AtualizaPerfilSerializer(serializers.ModelSerializer):
+
+    def update(self, instance, validated_data):
+
+        try:
+            instance.nome_completo = validated_data.get("nome_completo", instance.nome_completo)
+            instance.logradouro = validated_data.get("logradouro", instance.logradouro)
+            instance.numero = validated_data.get("numero", instance.numero)
+            instance.complemento = validated_data.get("complemento", instance.complemento)
+            instance.cep = validated_data.get("cep", instance.cep)
+            instance.municipio = validated_data.get("municipio", instance.municipio)
+
+            instance.save()
+
+            return instance
+
+        except IntegrityError:
+            raise serializers.ValidationError("Ocorreu um erro. Por favor, tente novamente mais tarde")
+
+        return perfil
+
+    class Meta:
+        model = Perfil
+        fields = [
             "nome_completo", "logradouro", "numero",
             "complemento", "cep", "municipio"
         ]

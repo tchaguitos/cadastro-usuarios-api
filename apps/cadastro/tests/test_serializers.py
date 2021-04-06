@@ -1,4 +1,3 @@
-
 from django.test import TestCase
 
 from locais.models import (
@@ -7,8 +6,71 @@ from locais.models import (
 
 from cadastro.models import Usuario, Perfil
 
-from cadastro.serializers import CadastroSerializer
+from cadastro.serializers import (
+    PerfilSerializer, CadastroSerializer
+)
 
+
+class PerfilSerializerTestCase(TestCase):
+
+    def setUp(self):
+        pais = Pais.objects.create(
+            nome="Brasil"
+        )
+        
+        estado = Estado.objects.create(
+            pais=pais,
+            nome="Minas Gerais",
+            sigla="MG"
+        )
+
+        cidade = Cidade.objects.create(
+            estado=estado,
+            nome="Três Corações",
+        )
+
+        usuario = Usuario.objects.create_user(
+            email="test@test.com",
+            password="Test!@34",
+            cpf="66444998050",
+            pis="31756489822"
+        )
+
+        Perfil.objects.create(
+            usuario=usuario,
+            nome_completo="Thiago Rodrigues Brasil",
+            logradouro="Avenida Afonso Pena",
+            numero=3693,
+            complemento="Apartamento 385",
+            cep="37410555",
+            municipio=cidade
+        )
+
+    def test_serializer(self):
+
+        perfil = Perfil.objects.get(
+            usuario__cpf="66444998050"
+        )
+
+        expected = {
+            "email": "test@test.com",
+            "nome": "Thiago",
+            "cpf": "664.449.980-50",
+            "pis": "317.56489.82-2",
+            "nome_completo": "Thiago Rodrigues Brasil",
+            "logradouro": "Avenida Afonso Pena",
+            "numero": 3693,
+            "complemento": "Apartamento 385",
+            "cep": "37410-555",
+            "municipio": {
+                "id": 1,
+                "nome": "Três Corações/MG"
+            }
+        }
+
+        serializer = PerfilSerializer(instance=perfil)
+
+        self.assertEqual(serializer.data, expected)
 
 class CadastroSerializerTestCase(TestCase):
 
