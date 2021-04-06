@@ -21,7 +21,7 @@ class PerfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Perfil
         fields = [
-            "nome", "token", "email", "cpf", "pis",
+            "nome", "email", "cpf", "pis",
             "nome_completo", "logradouro", "numero",
             "complemento", "cep", "municipio"
         ]
