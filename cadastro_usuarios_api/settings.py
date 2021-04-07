@@ -119,7 +119,10 @@ CORS_ALLOWED_ORIGINS = [
 
 AUTH_USER_MODEL = "cadastro.Usuario"
 
-AUTHENTICATION_BACKENDS = ["cadastro.backends.CustomBackend"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "cadastro.backends.CustomBackend"
+]
 
 LANGUAGE_CODE = "pt-BR"
 TIME_ZONE = "America/Sao_Paulo"
